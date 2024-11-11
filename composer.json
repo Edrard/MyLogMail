@@ -1,0 +1,32 @@
+{
+    "name": "edrard/mylogmail",
+    "description": "Log Initialization for MyLog package with Mailer",
+    "type": "library",
+    "homepage": "https://github.com/Edrard/MyLogMail",
+    "license": "GNUv3",
+    "authors": [{
+        "name": "Edrard",
+        "email": "demonand@gmail.com"
+    }],
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/Edrard/function.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/Edrard/MyLog.git"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.0",
+        "edrard/function": "dev-master",
+        "edrard/mylog": "dev-master",
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "edrard\\MyLogMail\\": "src/MyLogMail"
+        }
+    }
+}
