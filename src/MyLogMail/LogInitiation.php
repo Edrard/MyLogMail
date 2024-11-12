@@ -176,12 +176,15 @@ class LogInitiation
     */
     protected function sendMailLog($text, $subject)
     {
-        $this->mailer->Subject = $subject;
-        $this->mailer->Body    = $text;
+        if(isset($text) and $text){
+            $this->mailer->Subject = $subject;
+            $this->mailer->Body    = $text;
 
-        $return = $this->mailer->send();
+            $return = $this->mailer->send();
 
-        MyLog::info("Mail sending result", [$return], $this->ch);
-        return $return;
+            MyLog::info("Mail sending result", [$return], $this->ch);
+            return $return;
+        }
+        return False;
     }
 }
