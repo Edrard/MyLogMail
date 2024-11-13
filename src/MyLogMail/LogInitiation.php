@@ -136,18 +136,31 @@ class LogInitiation
         $log_files = $this->getCurrentLogsFiles();
         $read = '';
         foreach ($log_files as $type => $log) {
-            $read .= $type."\n\n".file_get_contents($log);
-            if ($this->config['mail']['separate'] == 1) {
+            $read .= "\n\n".$type."\n\n".file_get_contents($log);
+            if ($this->config['mail']['separate'] == 1 || $this->config['mail']['only_important'] == 1) {
                 MyLog::info("Sending mail separated", $this->config['mail'], $this->ch);
+                if($this->config['mail']['only_important'] == 1 && $this->checkType($type) === FALSE){
+                    $read = '';
+                    continue;
+                }
                 $this->sendMailLog($read, '['.$type.' '.$this->config['mail']['subject'].']');
                 $read = '';
             }
         }
-        if ($this->config['mail']['separate'] != 1) {
+        if ($this->config['mail']['separate'] != 1 && $this->config['mail']['only_important'] != 1) {
             MyLog::info("Sending mail combined", $this->config['mail'], $this->ch);
             $this->sendMailLog($read, '['.$this->config['mail']['subject'].']');
         }
     }
+    protected function checkType($type){
+        foreach($this->imp as $t){
+            if(strpos($type, $t) !== false){
+                return TRUE;
+            }
+        }
+        return FALSE;
+    }
+
     /**
     * put your comment there...
     *

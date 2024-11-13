@@ -18,6 +18,7 @@ return [
         'from' => '',
         'to' => '',
         'separate' => '1',
+        'only_important' => '1', # Send only warning error critical
         'subject' => 'My Server'
     ]
 ];
