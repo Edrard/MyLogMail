@@ -39,8 +39,8 @@ class LogInitiation
         }
     }
     protected function checkConfig(){
-        if(!isset($this->config['file']['disble'])){
-            $this->config['file']['disble'] = 0;
+        if(!isset($this->config['file']['disable'])){
+            $this->config['file']['disable'] = 0;
         }
     }
     public function renameLog(){
@@ -72,15 +72,15 @@ class LogInitiation
     protected function fileLogSet()
     {
         MyLog::init($this->config['file']['dst'], $this->ch,$this->handlers,$this->re_enable,$this->maxfiles);
-        if ($this->config['file']['full'] != 1 && $this->config['file']['disble'] != 1) {
+        if ($this->config['file']['full'] != 1 && $this->config['file']['disable'] != 1) {
             MyLog::changeType($this->imp, $this->ch);
             MyLog::info("[".get_class($this)."] Only warnings, errors and criticals",$this->imp,$this->ch);
         }
-        if ($this->config['file']['debug'] == 1 && $this->config['file']['disble'] != 1) {
+        if ($this->config['file']['debug'] == 1 && $this->config['file']['disable'] != 1) {
             MyLog::changeType($this->debug, $this->ch);
             MyLog::info("[".get_class($this)."] Debug mode On",$this->debug,$this->ch);
         }
-        if ($this->config['file']['disble'] == 1) {
+        if ($this->config['file']['disable'] == 1) {
             MyLog::changeType([], $this->ch);
             MyLog::info("[".get_class($this)."] Logs disabled",$this->debug,$this->ch);
         }
