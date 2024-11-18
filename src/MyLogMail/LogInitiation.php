@@ -26,6 +26,7 @@ class LogInitiation
     public function __construct($config, $ch = 'log', array $handlers = array(), $re_enable = false, $maxfiles = 60)
     {
         $this->config =  $config;
+        $this->checkConfig();
         $this->ch = $ch;
         $this->maxfiles = $maxfiles;
         $this->handlers = $handlers;
@@ -35,6 +36,11 @@ class LogInitiation
     protected function perRunLogs(){
         if($this->config['file']['per_run'] === 1){
             register_shutdown_function([$this, 'renameLog']);
+        }
+    }
+    protected function checkConfig(){
+        if(!isset($this->config['file']['disble'])){
+            $this->config['file']['disble'] = 0;
         }
     }
     public function renameLog(){
