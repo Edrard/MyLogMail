@@ -7,6 +7,7 @@ return [
     'file' => [
         'dst' => 'logs',
         'full' => 1, # keep info
+        'disable' => 0 # Full disable loging
         'debug' => 1, # More priority then full, adding debug to logs
         'per_run' => 0 # Create new log per script run
     ],

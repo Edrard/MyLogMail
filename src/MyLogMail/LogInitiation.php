@@ -66,13 +66,17 @@ class LogInitiation
     protected function fileLogSet()
     {
         MyLog::init($this->config['file']['dst'], $this->ch,$this->handlers,$this->re_enable,$this->maxfiles);
-        if ($this->config['file']['full'] != 1) {
+        if ($this->config['file']['full'] != 1 && $this->config['file']['disble'] != 1) {
             MyLog::changeType($this->imp, $this->ch);
             MyLog::info("[".get_class($this)."] Only warnings, errors and criticals",$this->imp,$this->ch);
         }
-        if ($this->config['file']['debug'] == 1) {
+        if ($this->config['file']['debug'] == 1 && $this->config['file']['disble'] != 1) {
             MyLog::changeType($this->debug, $this->ch);
             MyLog::info("[".get_class($this)."] Debug mode On",$this->debug,$this->ch);
+        }
+        if ($this->config['file']['disble'] == 1) {
+            MyLog::changeType([], $this->ch);
+            MyLog::info("[".get_class($this)."] Logs disabled",$this->debug,$this->ch);
         }
         MyLog::info("[".get_class($this)."] Log Initializated with ",['config' => $this->config,'ch' => $this->ch,'max' => $this->maxfiles],$this->ch);
     }
