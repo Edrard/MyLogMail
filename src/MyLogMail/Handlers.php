@@ -6,13 +6,21 @@ use Monolog\Handler\StreamHandler;
 
 class Handlers
 {
-    public static $stdout = [
-        new StreamHandler('php://stdout', Logger::INFO),
-        new StreamHandler('php://stdout', Logger::INFO),
-        new StreamHandler('php://stdout', Logger::INFO),
-        new StreamHandler('php://stdout', Logger::INFO),
-        new StreamHandler('php://stdout', Logger::INFO)
-    ];
+    private static $stdout = [];
+
+    public static function stdout(){
+        if(static::$stdout != []){
+            return static::$stdout;
+        }
+        static::$stdout = [
+            new StreamHandler('php://stdout', Logger::INFO),
+            new StreamHandler('php://stdout', Logger::INFO),
+            new StreamHandler('php://stdout', Logger::INFO),
+            new StreamHandler('php://stdout', Logger::INFO),
+            new StreamHandler('php://stdout', Logger::INFO)
+        ];
+        return static::$stdout;
+    }
 
 
 }
