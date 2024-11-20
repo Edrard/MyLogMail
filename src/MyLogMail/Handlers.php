@@ -14,10 +14,10 @@ class Handlers
         }
         static::$stdout = [
             new StreamHandler('php://stdout', Logger::INFO),
-            new StreamHandler('php://stdout', Logger::INFO),
-            new StreamHandler('php://stdout', Logger::INFO),
-            new StreamHandler('php://stdout', Logger::INFO),
-            new StreamHandler('php://stdout', Logger::INFO)
+            new StreamHandler('php://stdout', Logger::CRITICAL),
+            new StreamHandler('php://stdout', Logger::WARNING),
+            new StreamHandler('php://stdout', Logger::ERROR),
+            new StreamHandler('php://stdout', Logger::DEBUG)
         ];
         return static::$stdout;
     }
