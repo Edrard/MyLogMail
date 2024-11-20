@@ -13,11 +13,11 @@ class Handlers
             return static::$stdout;
         }
         static::$stdout = [
-            new StreamHandler('php://stdout', Logger::INFO),
-            new StreamHandler('php://stdout', Logger::CRITICAL),
-            new StreamHandler('php://stdout', Logger::WARNING),
-            new StreamHandler('php://stdout', Logger::ERROR),
-            new StreamHandler('php://stdout', Logger::DEBUG)
+            new StreamHandler('php://stdout', Logger::INFO,false),
+            new StreamHandler('php://stdout', Logger::CRITICAL,false),
+            new StreamHandler('php://stdout', Logger::WARNING,false),
+            new StreamHandler('php://stdout', Logger::ERROR,false),
+            new StreamHandler('php://stdout', Logger::DEBUG,false)
         ];
         return static::$stdout;
     }
