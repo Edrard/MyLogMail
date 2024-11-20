@@ -51,6 +51,12 @@ class LogInitiation
             rename($log, $file['dirname'].'/'.$file['filename'].'_'.date('H_i_s').'.'.$file['extension']);
         }
     }
+    public function changeHandlers($handlers = array()){
+        if($handlers != []){
+            MyLog::setNewHandlers($handlers,$this->ch);
+            MyLog::info("[".get_class($this)."] Change handlers to: ",$handlers,$this->ch);
+        }
+    }
     /**
     * put your comment there...
     *
