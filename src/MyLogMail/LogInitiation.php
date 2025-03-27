@@ -92,6 +92,13 @@ class LogInitiation
         }
         MyLog::info("[".get_class($this)."] Log Initializated with ",['config' => $this->config,'ch' => $this->ch,'max' => $this->maxfiles],$this->ch);
     }
+    public function changeMailConfig(array $mail_config,$shutdown = TRUE){
+        $this->config['mail'] = $mail_config;
+        if($shutdown === FALSE){
+            register_shutdown_function(function() {});
+        }
+        $this->mailLogSet($shutdown);
+    }
     /**
     * put your comment there...
     *
