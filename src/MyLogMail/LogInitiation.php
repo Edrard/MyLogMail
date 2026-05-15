@@ -2,6 +2,7 @@
 namespace edrard\MyLogMail;
 
 use edrard\Log\MyLog;
+use edrard\MyLogMail\Exceptions\MyLogMailException;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -69,7 +70,7 @@ class LogInitiation
             $this->perRunLogs();
         } catch (Exception $e) {
             MyLog::critical("[".get_class($this)."] ".$e->getMessage(),[],$this->ch);
-            die($e->getMessage());
+            throw new MyLogMailException($e->getMessage(), 0, $e);
         }
     }
     /**
@@ -90,7 +91,14 @@ class LogInitiation
             MyLog::changeType([], $this->ch);
             MyLog::info("[".get_class($this)."] Logs disabled",$this->debug,$this->ch);
         }
-        MyLog::info("[".get_class($this)."] Log Initializated with ",['config' => $this->config,'ch' => $this->ch,'max' => $this->maxfiles],$this->ch);
+        MyLog::info("[".get_class($this)."] Log Initializated with ",['config' => $this->sanitizeConfig(),'ch' => $this->ch,'max' => $this->maxfiles],$this->ch);
+    }
+    protected function sanitizeConfig(){
+        $config = $this->config;
+        if(isset($config['mail'])){
+            $config['mail']['pass'] = str_repeat("*",6);
+        }
+        return $config;
     }
     public function changeMailConfig(array $mail_config,$shutdown = TRUE){
         $this->config['mail'] = $mail_config;
@@ -161,7 +169,7 @@ class LogInitiation
         foreach ($log_files as $type => $log) {
             $read .= "\n\n".$type."\n\n".file_get_contents($log);
             if ($this->config['mail']['separate'] == 1 || $this->config['mail']['only_important'] == 1) {
-                MyLog::info("Sending mail separated", $this->config['mail'], $this->ch);
+                MyLog::info("Sending mail separated", $this->sanitizeConfig(), $this->ch);
                 if($this->config['mail']['only_important'] == 1 && $this->checkType($type) === FALSE){
                     $read = '';
                     continue;
@@ -171,7 +179,7 @@ class LogInitiation
             }
         }
         if ($this->config['mail']['separate'] != 1 && $this->config['mail']['only_important'] != 1) {
-            MyLog::info("Sending mail combined", $this->config['mail'], $this->ch);
+            MyLog::info("Sending mail combined", $this->sanitizeConfig(), $this->ch);
             $this->sendMailLog($read, '['.$this->config['mail']['subject'].']');
         }
     }
